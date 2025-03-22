@@ -1,0 +1,58 @@
+<과제 1>
+a = [2, 3, 4, 5, 6]  # 원본 리스트
+dev_a = []  # 역순으로 저장할 새로운 리스트
+
+for _ in range(len(a)):  # 원본 리스트의 길이만큼 반복
+    dev_a.append(a.pop())  # pop()을 사용하여 원소를 하나씩 꺼내 새로운 리스트에 추가
+
+print("rev_a =", dev_a)  # 결과 출력
+
+
+
+<과제2>
+from collections import Counter
+
+tuple_data = (1, 2, 5, 4, 3, 2, 1, 4, 7, 8, 9, 9, 3, 7, 3)  # 주어진 튜플
+print("주어진 튜플은:", tuple_data)
+
+count = Counter(tuple_data)  # 각 요소의 등장 횟수를 계산
+max_count = max(count.values())  # 최다 빈도수 찾기
+
+# 최다 빈도수를 가진 요소 중에서 가장 큰 값 찾기
+most_frequent = max(key for key, val in count.items() if val == max_count)
+
+print("가장 많이 나타나는 원소는:", most_frequent)
+
+
+
+<과제3-1>
+menu = {
+    "Americano": 3000,
+    "Ice Americano": 3500,
+    "Cappuccino": 4000,
+    "Cafe Latte": 4500,
+    "Espresso": 3600
+}
+
+for key in menu:
+    print("{:16s} 가격 : {:,}원".format(key, menu[key]))
+
+
+
+<과제 3-2>
+menu = {
+    "Americano": 3000,
+    "Ice Americano": 3500,
+    "Cappuccino": 4000,
+    "Cafe Latte": 4500,
+    "Espresso": 3600
+}
+
+for key in menu:
+    print("{:16s} 가격 : {:,}원".format(key, menu[key]))
+
+choice = input("위의 메뉴중 하나를 선택하세요: ")
+if choice in menu.keys():
+    print("{}는 {:,}원 입니다. 결제를 부탁합니다.".format(choice, menu[choice]))
+else:
+    print("미안합니다. {}는 메뉴에 없습니다".format(choice))
