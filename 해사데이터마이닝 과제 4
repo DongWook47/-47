@@ -1,0 +1,43 @@
+<1번 과제>
+import pandas as pd
+import numpy as np
+
+# 예시 데이터프레임
+data = {
+    'A': [1, 2, 3],
+    'B': [4, 5, 6],
+    'C': ['x', 'y', 'z'],  # 문자열 열 (숫자 아님)
+    'D': [7, 8, 9]
+}
+df = pd.DataFrame(data)
+
+# 숫자형 열의 평균을 계산해 'Average' 열 추가
+df['Average'] = df.select_dtypes(np.number).mean(axis=1)
+
+print(df)
+
+
+<2번 문제>
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 데이터 로드
+weather = pd.read_csv(weather_file, encoding='CP949')
+weather['month'] = pd.DatetimeIndex(weather['일시']).month
+
+# 결측값 처리 (필요 시)
+weather['평균풍속'] = weather['평균풍속'].fillna(0)
+
+# 월별 평균풍속 계산
+monthly_wind = [None for x in range(12)]
+for i in range(12):
+    monthly_wind[i] = weather[weather['month'] == i + 1]
+    monthly_wind[i] = monthly_wind[i].mean()['평균풍속']
+
+# 월별 평균풍속 그래프 그리기
+months = np.arange(1, 13)
+plt.bar(months, monthly_wind, color='blue')
+plt.xlabel('Month')
+plt.ylabel('Wind Speed')
+plt.show()
