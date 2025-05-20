@@ -1,0 +1,44 @@
+# Import necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the dataset
+url = "https://covid.ourworldindata.org/data/owid-covid-data.csv"
+df = pd.read_csv(url)
+
+# Filter data for South Korea and France
+kor_df = df[df['location'] == 'South Korea'].copy()
+fra_df = df[df['location'] == 'France'].copy()
+
+# Set date as index
+kor_df['date'] = pd.to_datetime(kor_df['date'])
+fra_df['date'] = pd.to_datetime(fra_df['date'])
+kor_df.set_index('date', inplace=True)
+fra_df.set_index('date', inplace=True)
+
+# Calculate daily case ratio (percentage)
+kor_df['case_ratio'] = (kor_df['total_cases'] / kor_df['population']) * 100
+fra_df['case_ratio'] = (fra_df['total_cases'] / fra_df['population']) * 100
+
+# Select data up to the latest available (e.g., May 20, 2025)
+latest_date = pd.to_datetime('2025-05-20')
+kor_df = kor_df[kor_df.index <= latest_date]
+fra_df = fra_df[fra_df.index <= latest_date]
+
+# Plot the data
+plt.figure(figsize=(10, 6))
+plt.plot(kor_df.index, kor_df['case_ratio'], label='KOR', color='blue')
+plt.plot(fra_df.index, fra_df['case_ratio'], label='FRA', color='orange')
+plt.xlabel('date')
+plt.ylabel('Case Ratio (%)')
+plt.title('COVID-19 Case Ratio: South Korea vs France')
+plt.legend()
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Display the first few rows of the processed data
+print("South Korea Data Preview:")
+print(kor_df[['case_ratio']].head())
+print("\nFrance Data Preview:")
+print(fra_df[['case_ratio']].head())
