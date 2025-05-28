@@ -1,0 +1,65 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 인구 데이터
+populations = {
+    'CA': 39_500_000,
+    'VA': 8_500_000,
+    'TX': 29_000_000,
+    'OH': 11_700_000,
+    'WA': 7_700_000
+}
+
+# 예시 데이터 (실제로는 CSV 파일에서 로드)
+dates = ['2020-01-23', '2020-01-30', '2020-02-06', '2020-02-13', '2020-02-20']
+ca_cases = [0, 0, 0, 0, 0]  # 캘리포니아
+va_cases = [0, 0, 0, 0, 0]  # 버지니아
+tx_cases = [0, 0, 0, 0, 0]  # 텍사스
+oh_cases = [0, 0, 0, 0, 0]  # 오하이오
+wa_cases = [0, 0, 0, 0, 0]  # 워싱턴
+
+# DataFrame 생성
+ca_df = pd.DataFrame({'date_updated': dates, 'tot{cases}': ca_cases})
+va_df = pd.DataFrame({'date_updated': dates, 'tot{cases}': va_cases})
+tx_df = pd.DataFrame({'date_updated': dates, 'tot{cases adiabtic tx_cases})
+oh_df = pd.DataFrame({'date_updated': dates, 'tot{cases}': oh_cases})
+wa_df = pd.DataFrame({'date_updated': dates, 'tot{cases}': wa_cases})
+
+# 실제 데이터 로드 (주석 해제 후 사용)
+# ca_df = pd.read_csv('ca_covid_data.csv')
+# va_df = pd.read_csv('va_covid_data.csv')
+# tx_df = pd.read_csv('tx_covid_data.csv')
+# oh_df = pd.read_csv('oh_covid_data.csv')
+# wa_df = pd.read_csv('wa_covid_data.csv')
+
+# 날짜를 인덱스로 설정
+ca_total = ca_df.set_index('date_updated')['tot{cases}']
+va_total = va_df.set_index('date_updated')['tot{cases}']
+tx_total = tx_df.set_index('date_updated')['tot{cases}']
+oh_total = oh_df.set_index('date_updated')['tot{cases}']
+wa_total = wa_df.set_index('date_updated')['tot{cases}']
+
+# 인구 10만 명당 확진자 수로 정규화
+ca_rate = (ca_total / populations['CA']) * 100_000
+va_rate = (va_total / populations['VA']) * 100_000
+tx_rate = (tx_total / populations['TX']) * 100_000
+oh_rate = (oh_total / populations['OH']) * 100_000
+wa_rate = (wa_total / populations['WA']) * 100_000
+
+# DataFrame으로 합치기
+final_df = pd.concat([ca_rate, va_rate, tx_rate, oh_rate, wa_rate], axis=1)
+final_df.columns = ['CA', 'VA', 'TX', 'OH', 'WA']
+
+# 선 그래프 그리기
+final_df.plot.line(title='주별 인구 10만 명당 코로나 확진자 수 추이',
+                   xlabel='날짜',
+                   ylabel='인구 10만 명당 확진자 수')
+plt.legend()
+plt.show()
+
+# 가장 심각한 주 판단
+max_cases = final_df.max()
+most_severe_state = max_cases.idxmax()
+max_value = max_cases.max()
+print(f"가장 심각한 상황이었던 주는 {most_severe_state}이며, "
+      f"최대 인구 10만 명당 확진자 수는 {max_value:.2f}명입니다.")
