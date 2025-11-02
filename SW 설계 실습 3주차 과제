@@ -1,0 +1,77 @@
+┌─────────────────┐       ┌─────────────────┐
+│     User        │1     *│     Address     │
+├─────────────────┤───────├─────────────────┤
+│ -userId: Long   │       │ -addressId: Long│
+│ -email: String  │       │ -street: String │
+│ -password: String│     │ -city: String   │
+│ -name: String   │       │ -state: String  │
+│ -phone: String  │       │ -zipCode: String│
+│ -role: UserRole │       │ -isDefault: bool│
+└─────────────────┘       └─────────────────┘
+        ▲
+        │
+   ┌────┴─────┐
+   │ Customer │
+   ├──────────┤
+   │          │
+   └──────────┘
+        ▲
+        │
+   ┌────┴─────┐
+   │  Admin   │
+   └──────────┘
+
+┌─────────────────┐       ┌─────────────────┐
+│   Product       │*     1│   Category      │
+├─────────────────┤───────├─────────────────┤
+│ -productId: Long│       │ -categoryId: Long│
+│ -name: String   │       │ -name: String   │
+│ -description: String│   │ -description: String│
+│ -price: Double  │       └─────────────────┘
+│ -stock: Integer │
+│ -imageUrl: String│
+│ -isActive: bool │
+└─────────────────┘
+
+┌─────────────────┐       ┌─────────────────┐
+│   Cart          │1     *│   CartItem      │
+├─────────────────┤───────├─────────────────┤
+│ -cartId: Long   │       │ -cartItemId: Long│
+│ -user: User     │       │ -product: Product│
+│ -createdAt: Date│       │ -quantity: int  │
+│ -updatedAt: Date│       │ -price: Double  │
+└─────────────────┘       └─────────────────┘
+
+┌─────────────────┐       ┌─────────────────┐
+│    Order        │1     *│   OrderItem     │
+├─────────────────┤───────├─────────────────┤
+│ -orderId: Long  │       │ -orderItemId: Long│
+│ -user: User     │       │ -product: Product│
+│ -totalAmount: Double│   │ -quantity: int  │
+│ -status: OrderStatus│   │ -price: Double  │
+│ -orderDate: Date│       └─────────────────┘
+│ -shippingAddress: Address│
+│ -payment: Payment│
+└─────────────────┘
+
+┌─────────────────┐
+│   Payment       │
+├─────────────────┤
+│ -paymentId: Long│
+│ -order: Order   │
+│ -amount: Double │
+│ -method: String │
+│ -status: PaymentStatus│
+│ -paidAt: Date   │
+└─────────────────┘
+
+┌─────────────────┐
+│   Review        │
+├─────────────────┤
+│ -reviewId: Long │
+│ -product: Product│
+│ -user: User     │
+│ -rating: int    │
+│ -comment: String│
+│ -createdAt: Date│
+└─────────────────┘
