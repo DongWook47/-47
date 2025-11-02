@@ -1,0 +1,26 @@
+@startuml
+title Flight Reservation Sequence Diagram
+
+actor "Booking Clerk" as clerk
+participant ":GUI" as gui
+participant ":Flight" as flight
+participant ":Fare" as fare
+participant ":Reservation" as reservation
+
+clerk -> gui: Input(Search Request)
+gui -> flight: Submit(Search Details)
+flight --> gui: Return(result, seats avail)
+
+clerk -> gui: Check Fares
+gui -> fare: Check Fares(Details)
+fare --> gui: Return(Fare)
+
+note over gui: [Client chooses a flight]
+
+clerk -> gui: Reserve Flight
+gui -> reservation: Place Reservation
+note right: [Client chooses a flight]
+reservation -> gui: Send Update(Reservation details)
+gui --> clerk: Return(Booking Confirmation)
+
+@enduml
